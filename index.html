@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/vendor/bootstrap-3.0.0.min.css" rel="stylesheet" type="text/css">
+    <link href="css/vendor/bootstrap-glyphicons-1.0.0.css" rel="stylesheet" type="text/css">
+    <style>
+    .current {display:none;}
+    .archived {display:none;}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <span class="navbar-brand">CONEMO</span>
+      </div>
+    </nav>
+    <div class="container">
+     <i>Make sure to allow installation of non-Market applications from your phone settings menu. <br/>If you need help, feel free to use this <a href="http://droidlessons.com/how-to-install-non-market-third-party-apps-on-android/">guide</a>.</i><br/><br/>   
+     <a class="btn btn-primary" id="showCurrent">Access App Most Recent Versions</a>
+     <a class="btn btn-primary" id="showArchived">Access App Archive</a><br/><br/>
+
+<!--most recent apps with class of current-->  
+     <p class="lead current"><a href="releases/current/CONEMO-debug-unaligned-v0139.apk">Download Current App (Vn.n.n)</a> - mm/dd/yyyy</p>
+
+<!--archived versions with class of archived-->
+     <p class="lead archived"><a href="releases/filename.apk">Download App (Vn.n.n)</a> - mm/dd/yyyy</p>
+
+   </div>
+
+ </div><br/><br/>
+    <script src="js/vendor/jquery-2.0.3.min.js"></script>
+    <script src="js/vendor/bootstrap-3.0.0.min.js"></script>
+    <script>
+    $(document).ready(function(){
+
+        /* 
+        This is done so that mobile device cannot cache an offline version with old links, alternate non kludgey variant desired, using no-cache does not work on all phones and if the phone does not have connectivity it may still keep this page accessible. 
+        This is especially problematic in cases where the phone is offline but comes ONLINE after this page is visited. */
+        setTimeout("location.reload(true);", 5000);
+
+        $.urlParam = function(name, url) {
+            if (!url) {
+             url = window.location.href;
+            }
+            var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
+            if (!results) { 
+                return undefined;
+            }
+            return results[1] || undefined;
+        }
+
+        var show = decodeURIComponent($.urlParam('show'));
+        
+        /* this is done to ensure:
+        - that if the page is bookmarked with a specific url that it will reveal the correct app versions */
+        $("." + show).show();
+
+        $("#showCurrent").on('click', function(ev){
+            window.location.href = "?show=current";
+        });
+        $("#showArchived").on('click', function(ev){
+            window.location.href = "?show=archived";
+        });
+
+    });
+    </script>
+  </body>
+</html>
